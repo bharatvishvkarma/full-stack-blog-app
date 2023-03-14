@@ -21,7 +21,7 @@ function Create() {
     const [blogImg, setBlogImg] = useState("https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801459805.jpg")
     const [fileup, setFileup] = useState(null)
     const currentDate = new Date()
-    const[loading,setLoading] = (false)
+    const[loading,setLoading] = useState(false)
 
     // const []
     const [blog, setBlog] = useState({
@@ -121,7 +121,7 @@ function Create() {
                 <div className='createNewBlog' style={{ display: "flex", gap: "10%", alignItems: "center" }}>
                     <img className='createNewImage' style={{ width: "40%", height: "30%", maxHeight: "350px", objectFit: "cover", border: "1px solid teal", borderRadius: "5%" }} src={blogImg} alt="blogImg" accept="image/*" />
                     <div>
-                        <TextField name="title" onChange={(e) => handleChange(e)} inputProps={{ maxLength: 55 }} style={{ width: "100%" }} id="standard-basic" label="Title" variant="standard" />
+                        <TextField name="title" onChange={(e) => handleChange(e)} inputProps={{ maxLength: 61 }} style={{ width: "100%" }} id="standard-basic" label="Title" variant="standard" />
                         <TextField style={{ width: "100%", marginTop: "20px" }}
                             id="outlined-textarea"
                             label="Content"
@@ -129,7 +129,7 @@ function Create() {
                             multiline
                             rows={5}
                             name="content"
-                            inputProps={{ maxLength: 1500 }}
+                            inputProps={{ maxLength: 3500 }}
                             onChange={(e) => handleChange(e)}
 
                         />
