@@ -19,8 +19,8 @@ function generateToken(user){
 async function signup(req,res){
 
     try{
-        const {name,email, password,mobile} = req.body
-
+        const {name,email, password,mobile,imgUrl} = req.body
+        console.log(req.body)
         let user = await User.findOne({
             email:email
         })
@@ -32,7 +32,7 @@ async function signup(req,res){
         }
 
         user = await User.create({
-            name,email,password,mobile,
+            name,email,password,mobile,imgUrl,
             signinMethod: "email-password",
         })
         
@@ -74,7 +74,7 @@ async function logIn(req,res){
             data:{
                 token,
                 user:{
-                    _id,name
+                    _id,name,
                 }
             }
         })
@@ -89,7 +89,7 @@ async function logIn(req,res){
 async function checkLoggedIn(req,res){
     try{
         const user = req.user;
-
+        // console.log(user)
         return res.send({
             data: user
         })
@@ -142,21 +142,21 @@ async function signInWithGitHub(req,res){
             existingUser = await User.create({
                 name: user.name,
                 email: user.email,
-                image: user.avatar_url,
+                imgUrl: user.avatar_url,
                 signinMethod: 'github-oauth',
                 githubUsername: user.login
             });
         }
 
         const token = generateToken(existingUser)
-        const {_id,name, image, email} = existingUser
+        const {_id,name, imgUrl, email} = existingUser
 
         return res.send({
             message: 'Login with GitHub successful',
             data:{
                 token,
                 user:{
-                    _id,name,email,image
+                    _id,name,email,imgUrl
                 }
             }
         })
@@ -191,10 +191,11 @@ async function addToBlog(req,res){
 
 async function getAllBlogs(req,res){
    
-
     try{
-        const allblogs = await Blog.find({})
-        // console.log(allblogs)
+        let category = req.query.category
+
+        
+        const allblogs = !category ?await Blog.find(): await Blog.find({category: category})
         return  res.send({
             message : "successfully",
             blogs: allblogs
@@ -206,6 +207,22 @@ async function getAllBlogs(req,res){
         })
     }
 }
+
+// async function getOne(req,res){
+//     try{
+//         const id = req.params.id
+//         const blog = await Blog.findById(id)
+//         return res.send({
+//             message:"successfully found",
+//             blog: blog
+//         })
+//     }
+//     catch(err){
+//         return res.status(500).send({
+//             message: "somthing went wrong",
+//         })
+//     }
+// }
 
 async function deleteOneBlog(req, res){
     try{
@@ -238,6 +255,26 @@ async function updateOneBlog(req,res){
     }
 }
 
+async function postComment(req,res){
+    try{
+        const id = req.params.id;
+        const data = req.body
+        console.log(data)
+        await Blog.findByIdAndUpdate(id,
+            {
+                $push:{comments:data}
+            },{new:true})
+        res.send({
+            message:"comment added successfully"
+        })
+    }
+    catch(err){
+        return res.status(500).send({
+            message: err.message
+        })
+    }
+}
+
 async function getOneById(req,res){
         
     try{
@@ -245,7 +282,7 @@ async function getOneById(req,res){
         // console.log(id)
         const blog = await Blog.findById(id)
         return res.send({
-            message: 'Updated',
+            message: 'got it',
             blog: blog
         })
     }
@@ -256,4 +293,4 @@ async function getOneById(req,res){
     }
 }
 
-module.exports  = {signup, logIn, checkLoggedIn,signInWithGitHub,getOneById, addToBlog,updateOneBlog, getAllBlogs,deleteOneBlog}
+module.exports  = {signup, logIn,postComment, checkLoggedIn,signInWithGitHub,getOneById, addToBlog,updateOneBlog, getAllBlogs,deleteOneBlog}

@@ -1,0 +1,158 @@
+.signupImg{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid rgb(16, 16, 16);
+    cursor: pointer;
+    object-fit: cover
+}
+.moveRight {
+    animation: moveRight 1s forwards;
+  }
+@keyframes moveRight{
+    0% { transform: translateX(-105%); }
+  100% { transform: translateX(0px); }
+}
+
+.moveLeft {
+    animation: moveLeft 1s forwards;
+  }
+@keyframes moveLeft{
+    0% { transform: translateX(105%); }
+  100% { transform: translateX(0px); }
+}
+
+.blogsAll{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  justify-content: space-between;
+  gap: 2%;
+}
+
+@media screen and (max-width: 1000px) {
+  .blogsAll{
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+@media screen and (max-width: 620px) {
+  .blogsAll{
+    grid-template-columns: repeat(1,1fr);
+  }
+}
+
+.dropdown-toggle{
+    background-color: transparent;
+    border: 1px solid rgb(28, 44, 65)
+}
+
+.dropdown-menu{
+    background-color: white(49, 49, 49);
+    cursor: pointer;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Dosis&family=Josefin+Sans:wght@500&family=Roboto+Slab&family=Signika&family=Stylish&display=swap');
+
+*{
+    font-family: Roboto+Slab;
+    /* font-weight:500; */
+}
+
+/* .userProfilePage{
+  display:"flex";
+  grid-template-columns: repeat(2,1fr);
+  justify-content: space-between;
+} */
+
+.userProfile{
+  background-color: #666;
+  position: fixed;
+  top: 100px;
+  left: 0;
+  height: 100vh; /* set the left division height to the viewport height */
+  /* overflow: auto; */
+  width:"400px"
+} 
+.userPosts{
+  overflow: auto;
+  /* flex-grow: 1; */
+}
+
+.blogFixedImg {
+    
+    width: 250px;
+    height: 160px;
+
+    object-fit: cover;
+    object-position: left;
+}
+
+.custom-file-upload{
+    margin: auto;
+    text-align: center;
+}
+
+
+#file-upload{
+    display: none;
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-top-color: #666;
+    border-radius: 50%;
+    animation: spin 0.8s ease-in-out infinite;
+  }
+  
+  .singleComment:hover{
+    background-color: rgb(174, 227, 254);
+  }
+
+  .moveLeft{
+    font-size: 40px;
+    /* display: none; */
+    font-family: stylish;
+  }
+
+  @media screen and (max-width: 750px) {
+    .userName{
+        display: none;
+    }
+    .moveLeft{
+      font-size: 30px;
+      /* display: none; */
+    }
+    .moveRightbtn{
+      font-size: 10px;
+      /* display: none; */
+    }
+    .createNewBlog{
+      display: flex;
+      flex-direction: column;
+    }
+    .createNewBlog >img{
+      width: 300px;
+    }
+    
+  }
+  @media screen and (max-width: 500px) {
+    
+    .moveLeft{
+      margin-top: 9px;
+      font-size: 22px;
+      /* display: none; */
+    }
+    
+  }

@@ -5,9 +5,9 @@ const userSchema = mongoose.Schema({
     email: String,
     password: String,
     phone: String,
-    image: String,
+    imgUrl: String,
     signinMethod: String,
-    githubUsername: String
+    githubUsername: String,
 })
 
 const User = mongoose.model('User', userSchema)
