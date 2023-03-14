@@ -21,6 +21,7 @@ function Create() {
     const [blogImg, setBlogImg] = useState("https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801459805.jpg")
     const [fileup, setFileup] = useState(null)
     const currentDate = new Date()
+    const[loading,setLoading] = (false)
 
     // const []
     const [blog, setBlog] = useState({
@@ -35,7 +36,7 @@ function Create() {
     }
     // console.log(currentDate.getDate().toString() + "/" + currentDate.getMonth().toString() + "/" + currentDate.getFullYear().toString())
     async function addBlog() {
-
+        setLoading(true)
         if (isLoggedIn) {
             let imageUrl
             if (fileup) {
@@ -66,9 +67,11 @@ function Create() {
             }
             await addToBlog(obj)
                 .then((res) => {
+                    setLoading(false)
                     navigate('/')
                 })
                 .catch((err) => {
+                    setLoading(false)
                     toast(err.response.data.message, {
                         type: 'error',
                     })
@@ -155,7 +158,7 @@ function Create() {
                         </FormControl>
                         <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
                             <Input onChange={setImg} style={{ width: "60%" }} type='file'></Input>
-                            <Button onClick={addBlog} disabled={!blog.title && !blog.content && !blog.category} variant='contained'>Post</Button>
+                            <Button onClick={addBlog} disabled={!blog.title && !blog.content && !blog.category} variant='contained'>{loading?<div className="spinner" />:"Post"}</Button>
                         </div>
                     </div>
 
