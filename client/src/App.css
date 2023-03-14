@@ -122,6 +122,7 @@
 
   .moveLeft{
     font-size: 40px;
+    cursor: pointer;
     /* display: none; */
     font-family: stylish;
   }

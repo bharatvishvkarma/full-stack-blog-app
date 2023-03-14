@@ -18,7 +18,7 @@ import { updataImg } from '../api/api'
 
 function Create() {
     const navigate = useNavigate()
-    const [blogImg, setBlogImg] = useState(blogLogo)
+    const [blogImg, setBlogImg] = useState("https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801459805.jpg")
     const [fileup, setFileup] = useState(null)
     const currentDate = new Date()
 
@@ -116,7 +116,7 @@ function Create() {
             >
                 <h2 style={{ textAlign: "center", fontFamily: "Caveat", borderBottom: "1px solid salmon" }}>Create Blog</h2>
                 <div className='createNewBlog' style={{ display: "flex", gap: "10%", alignItems: "center" }}>
-                    <img className='createNewImage' style={{ width: "40%", height: "30%", maxHeight: "350px", objectFit: "cover", border: "1px solid teal", borderRadius: "5%" }} src="https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801459805.jpg" alt="blogImg" accept="image/*" />
+                    <img className='createNewImage' style={{ width: "40%", height: "30%", maxHeight: "350px", objectFit: "cover", border: "1px solid teal", borderRadius: "5%" }} src={blogImg} alt="blogImg" accept="image/*" />
                     <div>
                         <TextField name="title" onChange={(e) => handleChange(e)} inputProps={{ maxLength: 55 }} style={{ width: "100%" }} id="standard-basic" label="Title" variant="standard" />
                         <TextField style={{ width: "100%", marginTop: "20px" }}

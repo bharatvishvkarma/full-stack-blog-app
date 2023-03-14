@@ -20,7 +20,7 @@ function Signup(){
     let navigate = useNavigate()
     const [loading,setLoading] = useState(false)
     const [fileup,setFileup] = useState(null)
-    const [postImage,setPostImage] = useState({myFile:avatar})
+    const [postImage,setPostImage] = useState({myFile:"https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801541661.jpg"})
 
     const [user, setUser] = useState({
         email: "",
@@ -74,7 +74,7 @@ function Signup(){
     const handleFileUpload = async (e)=>{
         const file = e.target.files[0]
         setFileup(file);
-        console.log(file)
+        // console.log(file)
         const base64 = await convertToBase64(file)
         setPostImage({myFile:base64})
         // setUser({ ...user, [e.target.name]: base64 })
@@ -124,7 +124,7 @@ function Signup(){
                 <FormControl>
                     <label htmlFor = 'file-upload' className='custom-file-upload'>
                         <div className="">
-                            <img src = "https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801541661.jpg"  alt = "" className="signupImg" />
+                            <img src = {postImage.myFile}  alt = "" className="signupImg" />
                         </div>
                         
                     </label>
