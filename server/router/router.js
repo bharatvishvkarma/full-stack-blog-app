@@ -13,7 +13,7 @@ const bucketName = process.env.AWS_BUCKET_NAME;
 const awsConfig = {
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_KEY,
-  region: process.env.AWS_REGION,
+  region: "ap-south-1",
 };
  
 const S3 = new AWS.S3(awsConfig);
