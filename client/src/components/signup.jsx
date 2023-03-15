@@ -146,7 +146,7 @@ function Signup(){
                 </FormControl>
                 <FormControl>
                     <InputLabel htmlFor="my-input">Password</InputLabel>
-                    <Input onChange={(e) => { onValueChange(e) }} name="password" id="my-input" />
+                    <Input type="password" onChange={(e) => { onValueChange(e) }} name="password" id="my-input" />
                 </FormControl>
                 <FormControl>
                     <InputLabel htmlFor="my-input">Mobile no.</InputLabel>
