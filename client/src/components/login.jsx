@@ -51,14 +51,14 @@ function Login(){
             <Typography style={{ textAlign: "center" }} variant="h4">Login</Typography>
             <FormControl>
                 <InputLabel htmlFor="my-input">Email</InputLabel>
-                <Input onChange={(e) => { onValueChange(e) }} name="email" id="my-input" />
+                <Input type="email" onChange={(e) => { onValueChange(e) }} name="email" id="my-input" />
             </FormControl>
             <FormControl>
                 <InputLabel htmlFor="my-input">Password</InputLabel>
-                <Input onChange={(e) => { onValueChange(e) }} name="password" id="my-input" />
+                <Input type="password" onChange={(e) => { onValueChange(e) }} name="password" id="my-input" />
             </FormControl>
             <FormControl>
-                <Button onClick={()=> loginUser()} variant="contained" color="primary"  >Login</Button>
+                <Button disabled= {!user.email || !user.password} onClick={()=> loginUser()} variant="contained" color="primary"  >Login</Button>
             </FormControl>
         </Container>
         <Change />
