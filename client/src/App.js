@@ -41,10 +41,10 @@ function App() {
           <Route path = '/login' element = {!isLoggedIn?<Login />:<Navigate to='/' />} />
           <Route path = '/signup' element = {<Signup />} />
           <Route path = '/github-singin' element = {<GithubSignin />} />
-          <Route path = '/create' element = {<Create />} />
+          <Route path = '/create' element = {isLoggedIn?<Create />:<Navigate to = '/login'/>} />
           <Route path = '/update/:id' element = {<Updateblog />} />
           <Route path = '/:id' element = {<SingleBlog />}/>
-          <Route path = '/myPost' element = {<MyPost />}/>
+          <Route path = '/myPost' element = {isLoggedIn?<MyPost />:<Navigate to = '/login'/>}/>
         </Routes>
       </authContext.Provider>
       

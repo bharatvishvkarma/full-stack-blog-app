@@ -8,6 +8,7 @@ import avatar from '../assets/dummy1.jpg'
 import axios from "axios";
 import '../App.css'
 import { width } from "@mui/system";
+import isEmail from 'validator/lib/isEmail';
 const Container = styled(FormGroup)`
 width: 90%;
 margin: 5% auto;
@@ -20,6 +21,7 @@ function Signup(){
     let navigate = useNavigate()
     const [loading,setLoading] = useState(false)
     const [fileup,setFileup] = useState(null)
+    const [isValid,setIsValid] = useState(false)
     const [postImage,setPostImage] = useState({myFile:"https://bharatvishvkarma.s3.ap-south-1.amazonaws.com/1678801541661.jpg"})
 
     const [user, setUser] = useState({
@@ -138,22 +140,39 @@ function Signup(){
                 </FormControl>
                 <FormControl>
                     <InputLabel htmlFor="my-input">Full Name</InputLabel>
-                    <Input onChange={(e) => { onValueChange(e) }} name="name" id="my-input" />
+                    <Input onChange={(e) => { onValueChange(e) }}  name="name" id="my-input" />
+                    
                 </FormControl>
+                {user.name.length>0 && user.name.length<5?<p className="suggestion" >Name must contain atleast 5 character</p>:null}
+                
                 <FormControl>
                     <InputLabel htmlFor="my-input">Email</InputLabel>
-                    <Input onChange={(e) => { onValueChange(e) }} name="email" id="my-input" />
+                    <Input type = "email" onChange={(e) => { 
+                        onValueChange(e)
+                        const val = e.target.value
+                        if(isEmail(val)) {
+                            setIsValid(true);              
+                         } else {
+                            setIsValid(false);              
+                         }
+                         }}  name="email" id="my-input" />
                 </FormControl>
+                {user.email.length>0 && !isValid ?<p className="suggestion" >Invalid Email</p>:null}
+
                 <FormControl>
                     <InputLabel htmlFor="my-input">Password</InputLabel>
-                    <Input type="password" onChange={(e) => { onValueChange(e) }} name="password" id="my-input" />
+                    <Input type="password" onChange={(e) => {  onValueChange(e)  }} name="password" id="my-input" />
                 </FormControl>
+                {( user.password.length>0  && !(/[a-zA-Z]/.test(user.password) && /\d/.test(user.password) && user.password.length>=8)  )  ?<p className="suggestion" >Password must contain at least 8 characters, including one number and alphabets </p>:null}
+
                 <FormControl>
                     <InputLabel htmlFor="my-input">Mobile no.</InputLabel>
-                    <Input onChange={(e) => { onValueChange(e) }} name="mobile" id="my-input" />
+                    <Input type = "number" onChange={(e) => { onValueChange(e) }} name="mobile" id="my-input" />
                 </FormControl>
+                { (user.mobile + "").length>0 && (user.mobile + "").length !==10  ?<p className="suggestion" >Mobile number should be in 10 digits </p>:null}
                 <FormControl>
-                    <Button disabled= {!user.name || !user.password || !user.email || !user.mobile}  variant="contained" color="primary" onClick={()=>updateData()} >{loading?<div className="spinner" />:'Signup'}</Button>
+                    <Button disabled= {user.name.length<5 || !isValid || (user.mobile + "").length !==10 ||
+                    !(/[a-zA-Z]/.test(user.password)  && /\d/.test(user.password) && user.password.length>=8)}  variant="contained" color="primary" onClick={()=>updateData()} >{loading?<div className="spinner" />:'Signup'}</Button>
                 </FormControl>
             </Container>
             <Change />

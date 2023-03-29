@@ -9,6 +9,11 @@
 .moveRight {
     animation: moveRight 1s forwards;
   }
+  .suggestion{
+    margin-bottom: -2%;
+    font-size: 12px;
+    color: red;
+  }
 @keyframes moveRight{
     0% { transform: translateX(-105%); }
   100% { transform: translateX(0px); }

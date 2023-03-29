@@ -25,9 +25,7 @@ async function auth(req,res,next){
             let nUser = await User.findById(user._id)
             nUser = nUser.toJSON()
             delete nUser.password
-            // console.log(nUser)
             req.user = nUser
-            // console.log(user)
             next()
         }
         else{
