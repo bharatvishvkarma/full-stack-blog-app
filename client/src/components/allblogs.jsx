@@ -27,12 +27,11 @@ function AllBlogs() {
     const [cat, setCategory] = useState("")
     const [skip, setSkip] = useState(0)
     const [deleted, setDeleted] = useState(1)
-    const [totalLength,setTotalLength] = useState(0)
+    const [totalLength,setTotalLength] = useState()
     // const [skip,setSkip] = useState(0)
 
 
     useEffect(() => {
-
         getAllBlogs({ category: cat, skip: skip, radio }).then((response) => {
             
             setBlogs((prevBlogs) => [...prevBlogs, ...response.data.blogs]);
@@ -116,16 +115,16 @@ function AllBlogs() {
 
             <InfiniteScroll
             style = {{overflow: 'hidden'}}
-                        className="blogsAll"
+                        // className="blogsAll"
                         dataLength={blogs.length}
                         next={fetchMore}
                         hasMore={blogs.length != totalLength }
-                        loader={(blogs.length==0 && !loading)?<div></div>:<Loading />}
+                        loader={(blogs.length == 0 && !loading) ?null:<Loading />}
                     >
 
-            {/* <div className="blogsAll"> */}
+            <div className="blogsAll">
                 {
-
+                    blogs.length>0?
                     blogs.map((blog) => {
 
                         return (
@@ -134,13 +133,13 @@ function AllBlogs() {
 
                                     blogs.length > 0 ?
                                         <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} />
-                                        : <div></div>
+                                        : <div ></div>
                                 }
                             </div>
                         )
-                    })
+                    }):!loading?<div style={{textAlign:"center",color:"red",margin:"auto"}}><h3>No blog for this category</h3></div>:null
                 }
-            {/* </div> */}
+            </div>
 
             </InfiniteScroll>
 
