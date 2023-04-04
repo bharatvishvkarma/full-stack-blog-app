@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-const url = 'https://tense-tuna-coat.cyclic.app/'
-// const url = 'http://localhost:7777'
+// const url = 'https://tense-tuna-coat.cyclic.app/'
+const url = 'http://localhost:7777'
 
 export const updataImg = async(file)=>{
    return await axios.post(`${url}/upload`,file)

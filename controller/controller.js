@@ -200,7 +200,7 @@ async function getAllBlogs(req,res){
         else n = 1
         
         const allblogs = !category ?await Blog.find().sort({createdAt:n}).limit(6).skip(skip): await Blog.find({category: category})
-        const length = await Blog.find().count()
+        const length = !category ? await Blog.find().count() : await Blog.find({category: category}).count()
         
         return  res.send({
             message : "successfully",

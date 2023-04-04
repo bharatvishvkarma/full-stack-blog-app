@@ -71,7 +71,7 @@ function AllBlogs() {
         // console.log(skip)
     }
 
-
+    console.log(blogs.length,totalLength)
     return (
 
         <div style={{  width: "80%", margin: "auto", marginTop: "20px" }}>
