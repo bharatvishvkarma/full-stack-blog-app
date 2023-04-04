@@ -199,7 +199,7 @@ async function getAllBlogs(req,res){
         if(radio === 'new') n = -1
         else n = 1
         
-        const allblogs = !category ?await Blog.find().sort({createdAt:n}).limit(3).skip(skip): await Blog.find({category: category})
+        const allblogs = !category ?await Blog.find().sort({createdAt:n}).limit(6).skip(skip): await Blog.find({category: category})
         const length = await Blog.find().count()
         
         return  res.send({

@@ -67,7 +67,7 @@ function AllBlogs() {
 
     function fetchMore() {
         setLoading(true)
-        setSkip(prev => prev + 3)
+        setSkip(prev => prev + 6)
         setLoading(true)
         // console.log(skip)
     }
