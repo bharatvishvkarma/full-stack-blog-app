@@ -2,7 +2,7 @@ import { Button } from "@mui/material"
 import { useContext } from "react"
 import { authContext } from "../App"
 
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { getAllBlogs } from "../api/api"
 import { deleteOneBlog } from "../api/api"
 import { useNavigate } from "react-router-dom"
@@ -15,6 +15,8 @@ import OneBlog from "./oneBlog"
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Loading from "./loading"
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function AllBlogs() {
     const { user, isLoggedIn } = useContext(authContext)
@@ -22,17 +24,22 @@ function AllBlogs() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [radio, setRadio] = useState('popular')
-    const [cat, setCategory] = useState({ category: "" })
+    const [cat, setCategory] = useState("")
+    const [skip, setSkip] = useState(0)
     const [deleted, setDeleted] = useState(1)
+    const [totalLength,setTotalLength] = useState(0)
+    // const [skip,setSkip] = useState(0)
+
 
     useEffect(() => {
-        getAllBlogs(cat)
-            .then((response) => {
 
-                setBlogs(radio == 'popular' ? response.data.blogs : response.data.blogs.reverse())
-                setLoading(false)
-            })
-    }, [radio, cat, deleted])
+        getAllBlogs({ category: cat, skip: skip, radio }).then((response) => {
+            
+            setBlogs((prevBlogs) => [...prevBlogs, ...response.data.blogs]);
+            setTotalLength(response.data.allBlogs);
+            setLoading(false);
+          });
+    }, [radio, cat, skip, deleted])
 
     // function deleteBlog(id) {
     //     deleteOneBlog(id)
@@ -43,114 +50,104 @@ function AllBlogs() {
     //                 })
     //         })
     // }
-
+    // console.log(cat)
     function changeRadioButton() {
+        setSkip(0)
+        setBlogs([])
         setRadio(radio == 'popular' ? "new" : "popular")
         setLoading(true)
     }
 
     function handleChange(e) {
-        setCategory({ category: e.target.value })
+        setLoading(true)
+        setBlogs([])
+        setSkip(0)
+        setCategory(e.target.value)
+    }
+
+    function fetchMore() {
+        setLoading(true)
+        setSkip(prev => prev + 3)
+        setLoading(true)
+        // console.log(skip)
     }
 
 
     return (
-        <>
 
-            {
-                loading ? <div>
-                    <div style={{ display: "flex", gap: "4%", justifyContent: "center", textAlign: "center", marginTop: "100px", fontSize: "25px" }}>
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-grow text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+        <div style={{  width: "80%", margin: "auto", marginTop: "20px" }}>
 
-                        <div class="spinner-border text-secondary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-grow text-secondary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-border text-success" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-grow text-success" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <div class="spinner-border text-danger" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <FormControl style={{ padding: "5px 15px" }}>
+                    {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
+                    <RadioGroup
+                        aria-labelledby="demo-radio-buttons-group-label"
+                        defaultValue="female"
+                        name="radio-buttons-group"
+                        row
+                    >
+                        <FormControlLabel onClick={changeRadioButton} checked={radio == 'popular'} value="popular" control={<Radio />} label="Popular" />
+                        <FormControlLabel onClick={changeRadioButton} checked={radio != 'popular'} value="new" control={<Radio />} label="New" />
+                    </RadioGroup>
+                </FormControl>
+                <FormControl style={{ minWidth: "120px", width: "15%" }} fullWidth>
+                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                    <Select
+                        // name="food"
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        // value={value}
+                        label="Category"
+                        onChange={handleChange}
+                    >
+                        <MenuItem value="">all</MenuItem>
+                        <MenuItem value="food">Food</MenuItem>
+                        <MenuItem value="education">Education</MenuItem>
+                        <MenuItem value="science">Science</MenuItem>
+                        <MenuItem value="news">News</MenuItem>
+                        <MenuItem value="travel">Travel</MenuItem>
+                        <MenuItem value="health">Health and Fitness</MenuItem>
+                        <MenuItem value="photography">Photography</MenuItem>
+                        <MenuItem value="personal">Personal Blog</MenuItem>
+                        <MenuItem value="diy">DIY Craft Blog</MenuItem>
+                    </Select>
+                </FormControl>
+            </div>
 
-                    </div>
-                    <h4 style={{color:"gray",fontFamily:"stylish",textAlign:"center"}}>Loading...</h4>
-                </div> :
-                    <div style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
+            <InfiniteScroll
+            style = {{overflow: 'hidden'}}
+                        className="blogsAll"
+                        dataLength={blogs.length}
+                        next={fetchMore}
+                        hasMore={blogs.length != totalLength }
+                        loader={(blogs.length==0 && !loading)?<div></div>:<Loading />}
+                    >
 
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <FormControl style={{ padding: "5px 15px" }}>
-                                {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
-                                <RadioGroup
-                                    aria-labelledby="demo-radio-buttons-group-label"
-                                    defaultValue="female"
-                                    name="radio-buttons-group"
-                                    row
-                                >
-                                    <FormControlLabel onClick={changeRadioButton} checked={radio == 'popular'} value="popular]" control={<Radio />} label="Popular" />
-                                    <FormControlLabel onClick={changeRadioButton} checked={radio != 'popular'} value="new" control={<Radio />} label="New" />
-                                </RadioGroup>
-                            </FormControl>
-                            <FormControl style={{ minWidth: "120px", width: "15%" }} fullWidth>
-                                <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                <Select
-                                    // name="food"
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    // value={value}
-                                    label="Category"
-                                    onChange={handleChange}
-                                >
-                                    <MenuItem value="">all</MenuItem>
-                                    <MenuItem value="food">Food</MenuItem>
-                                    <MenuItem value="education">Education</MenuItem>
-                                    <MenuItem value="science">Science</MenuItem>
-                                    <MenuItem value="news">News</MenuItem>
-                                    <MenuItem value="travel">Travel</MenuItem>
-                                    <MenuItem value="health">Health and Fitness</MenuItem>
-                                    <MenuItem value="photography">Photography</MenuItem>
-                                    <MenuItem value="personal">Personal Blog</MenuItem>
-                                    <MenuItem value="diy">DIY Craft Blog</MenuItem>
+            {/* <div className="blogsAll"> */}
+                {
 
+                    blogs.map((blog) => {
 
-                                </Select>
-                            </FormControl>
-                        </div>
+                        return (
+                            <div key={blog._id}>
+                                {
 
-                        <div className="blogsAll">
-                            {
+                                    blogs.length > 0 ?
+                                        <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} />
+                                        : <div></div>
+                                }
+                            </div>
+                        )
+                    })
+                }
+            {/* </div> */}
 
-                                blogs.map((blog) => {
+            </InfiniteScroll>
 
-                                    return (
-                                        <div key={blog._id}>
-                                            {
+        </div>
 
-                                                blogs.length > 0 ?
-                                                    <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} />
-                                                    : <div></div>
-                                            }
-                                        </div>
-
-                                    )
-                                })
-                            }
-                        </div>
-                    </div>
-            }
-        </>
 
     )
 }
 
-export default AllBlogs
+export default React.memo(AllBlogs)

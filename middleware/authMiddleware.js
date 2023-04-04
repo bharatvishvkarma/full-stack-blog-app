@@ -23,7 +23,7 @@ async function auth(req,res,next){
             let user = jwt.decode(token)
 
             let nUser = await User.findById(user._id)
-            nUser = nUser.toJSON()
+            // nUser = nUser.toJSON()
             delete nUser.password
             req.user = nUser
             next()
@@ -33,7 +33,7 @@ async function auth(req,res,next){
                 message: "No auth token present"
             })
         }
-    }
+    } 
     else {
         return res.status(401).send({
             message: 'User is not logged in'

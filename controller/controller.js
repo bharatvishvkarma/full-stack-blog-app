@@ -1,12 +1,11 @@
 const User = require('../database/users')
 const jwt = require('jsonwebtoken')
-// const config = require('../config/config')
 const axios = require('axios')
 const Blog = require('../database/blogs')
 
 require('dotenv').config()
 
-const JSW_SECRET_KEY = 'sldjflkdsjldsg' 
+const JSW_SECRET_KEY = 'sldjflkdsjldsg'
 //console
 
 function generateToken(user){
@@ -14,7 +13,7 @@ function generateToken(user){
     return jwt.sign({
         _id,name,email
     },JSW_SECRET_KEY)
-} 
+}
 
 async function signup(req,res){
 
@@ -193,12 +192,20 @@ async function getAllBlogs(req,res){
    
     try{
         let category = req.query.category
-
+        let skip = req.query.skip
+        // console.log(skip)
+        let radio = req.query.radio
+        let n
+        if(radio === 'new') n = -1
+        else n = 1
         
-        const allblogs = !category ?await Blog.find(): await Blog.find({category: category})
+        const allblogs = !category ?await Blog.find().sort({createdAt:n}).limit(3).skip(skip): await Blog.find({category: category})
+        const length = await Blog.find().count()
+        
         return  res.send({
             message : "successfully",
-            blogs: allblogs
+            blogs: allblogs,
+            allBlogs: length
         })
     }
     catch(err){
