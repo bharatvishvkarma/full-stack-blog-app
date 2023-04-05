@@ -79,7 +79,7 @@ function AllBlogs() {
         // console.log("scrollTop" + document.documentElement.scrollTop);
         try {
             if (
-                window.innerHeight + document.documentElement.scrollTop + window.innerHeight*.03 >=
+                window.innerHeight + document.documentElement.scrollTop + window.innerHeight*.05 >=
                 document.documentElement.scrollHeight 
             ) {
                 // setLoading(true);
