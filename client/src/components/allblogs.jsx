@@ -62,8 +62,8 @@ function AllBlogs() {
     function handleChange(e) {
         setBlogs([])
         setTotalLength(0)
-        setCategory(e.target.value)
         setSkip(0)
+        setCategory(e.target.value)
     }
 
     function fetchMore() {
@@ -79,8 +79,8 @@ function AllBlogs() {
         // console.log("scrollTop" + document.documentElement.scrollTop);
         try {
             if (
-                blogs.length < totalLength && (window.innerHeight + document.documentElement.scrollTop + 1 >=
-                document.documentElement.scrollHeight )
+                window.innerHeight + document.documentElement.scrollTop + 1 >=
+                document.documentElement.scrollHeight 
             ) {
                 // setLoading(true);
                 // console.log(blogs.length && totalLength)
