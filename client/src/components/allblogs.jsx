@@ -27,18 +27,19 @@ function AllBlogs() {
     const [cat, setCategory] = useState("")
     const [skip, setSkip] = useState(0)
     const [deleted, setDeleted] = useState(1)
-    const [totalLength,setTotalLength] = useState()
+    const [totalLength, setTotalLength] = useState()
     // const [skip,setSkip] = useState(0)
 
 
     useEffect(() => {
+        setLoading(true)
         getAllBlogs({ category: cat, skip: skip, radio }).then((response) => {
-            
+
             setBlogs((prevBlogs) => [...prevBlogs, ...response.data.blogs]);
             setTotalLength(response.data.allBlogs);
             setLoading(false);
-          });
-    }, [radio, cat, skip, deleted])
+        });
+    }, [radio, cat, blogs.length != totalLength ? skip : cat, deleted])
 
     // function deleteBlog(id) {
     //     deleteOneBlog(id)
@@ -67,14 +68,38 @@ function AllBlogs() {
     function fetchMore() {
         setLoading(true)
         setSkip(prev => prev + 6)
-        setLoading(true)
+        // setLoading(true)
         // console.log(skip)
     }
 
-    console.log(blogs.length,totalLength)
+    const handelInfiniteScroll = () => {
+        // console.log("scrollHeight" + document.documentElement.scrollHeight);
+        // console.log("innerHeight" + window.innerHeight);
+        // console.log("scrollTop" + document.documentElement.scrollTop);
+        try {
+            if (
+                window.innerHeight + document.documentElement.scrollTop + window.innerHeight * 0.3 >=
+                document.documentElement.scrollHeight
+            ) {
+                // setLoading(true);
+                // console.log(blogs.length && totalLength)
+                setSkip(prev => prev + 6)
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("scroll", handelInfiniteScroll);
+        return () => window.removeEventListener("scroll", handelInfiniteScroll);
+    }, []);
+
+    // console.log(blogs.length,totalLength)
     return (
 
-        <div style={{  width: "80%", margin: "auto", marginTop: "20px" }}>
+        <div style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
 
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <FormControl style={{ padding: "5px 15px" }}>
@@ -113,35 +138,39 @@ function AllBlogs() {
                 </FormControl>
             </div>
 
-            <InfiniteScroll
+            {/* <InfiniteScroll
             style = {{overflow: 'hidden'}}
                         // className="blogsAll"
                         dataLength={blogs.length}
                         next={fetchMore}
                         hasMore={blogs.length != totalLength }
                         loader={(blogs.length == 0 && !loading) ?null:<Loading />}
-                    >
+                    > */}
 
             <div className="blogsAll">
                 {
-                    blogs.length>0?
-                    blogs.map((blog) => {
+                    blogs.length > 0 ?
+                        blogs.map((blog) => {
 
-                        return (
-                            <div key={blog._id}>
-                                {
+                            return (
+                                <div key={blog._id}>
+                                    {
 
-                                    blogs.length > 0 ?
-                                        <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} />
-                                        : <div ></div>
-                                }
-                            </div>
-                        )
-                    }):!loading?<div style={{textAlign:"center",color:"red",margin:"auto"}}><h3>No blog for this category</h3></div>:null
+                                        blogs.length > 0 ?
+                                            <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} />
+                                            : <div ></div>
+                                    }
+                                </div>
+                            )
+                        }) : !loading ? <div style={{ textAlign: "center", color: "red", margin: "auto" }}><h3>No blog for this category</h3></div> : null
                 }
             </div>
+            {
+                loading ? <Loading /> : <div></div>
+            }
 
-            </InfiniteScroll>
+
+            {/* </InfiniteScroll> */}
 
         </div>
 
