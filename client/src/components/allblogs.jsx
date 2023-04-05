@@ -40,7 +40,7 @@ function AllBlogs() {
             setTotalLength(response.data.allBlogs);
             setLoading(false);
         });
-    }, [radio,cat, blogs.length != totalLength  ? skip : null, deleted])
+    }, [radio,cat,skip, deleted])
 
     // function deleteBlog(id) {
     //     deleteOneBlog(id)
@@ -73,29 +73,29 @@ function AllBlogs() {
         // console.log(skip)
     }
 
-    const handelInfiniteScroll = () => {
-        // console.log("scrollHeight" + document.documentElement.scrollHeight);
-        // console.log("innerHeight" + window.innerHeight);
-        // console.log("scrollTop" + document.documentElement.scrollTop);
-        try {
-            if (
-                window.innerHeight + document.documentElement.scrollTop + window.innerHeight*.05 >=
-                document.documentElement.scrollHeight 
-            ) {
-                // setLoading(true);
-                // console.log(blogs.length && totalLength)
-                setSkip(prev => prev + 6)
-            }
+    // const handelInfiniteScroll = () => {
+    //     // console.log("scrollHeight" + document.documentElement.scrollHeight);
+    //     // console.log("innerHeight" + window.innerHeight);
+    //     // console.log("scrollTop" + document.documentElement.scrollTop);
+    //     try {
+    //         if (
+    //             window.innerHeight + document.documentElement.scrollTop + window.innerHeight*.05 >=
+    //             document.documentElement.scrollHeight 
+    //         ) {
+    //             // setLoading(true);
+    //             // console.log(blogs.length && totalLength)
+    //             setSkip(prev => prev + 6)
+    //         }
 
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
-    useEffect(() => {
-        window.addEventListener("scroll", handelInfiniteScroll);
-        return () => window.removeEventListener("scroll", handelInfiniteScroll);
-    }, []);
+    // useEffect(() => {
+    //     window.addEventListener("scroll", handelInfiniteScroll);
+    //     return () => window.removeEventListener("scroll", handelInfiniteScroll);
+    // }, []);
 
     // console.log(blogs.length,totalLength)
     return (
@@ -139,14 +139,14 @@ function AllBlogs() {
                 </FormControl>
             </div>
 
-            {/* <InfiniteScroll
+            <InfiniteScroll
             style = {{overflow: 'hidden'}}
                         // className="blogsAll"
                         dataLength={blogs.length}
                         next={fetchMore}
                         hasMore={blogs.length != totalLength }
                         loader={(blogs.length == 0 && !loading) ?null:<Loading />}
-                    > */}
+                    >
 
             <div className="blogsAll">
                 {
@@ -171,7 +171,7 @@ function AllBlogs() {
             }
 
 
-            {/* </InfiniteScroll> */}
+            </InfiniteScroll>
 
         </div>
 
@@ -179,4 +179,4 @@ function AllBlogs() {
     )
 }
 
-export default React.memo(AllBlogs)
+export default AllBlogs
