@@ -27,19 +27,20 @@ function AllBlogs() {
     const [cat, setCategory] = useState("")
     const [skip, setSkip] = useState(0)
     const [deleted, setDeleted] = useState(1)
-    const [totalLength, setTotalLength] = useState()
+    const [totalLength, setTotalLength] = useState(-1)
     // const [skip,setSkip] = useState(0)
 
 
     useEffect(() => {
         setLoading(true)
+        // setTotalLength(0)
         getAllBlogs({ category: cat, skip: skip, radio }).then((response) => {
 
             setBlogs((prevBlogs) => [...prevBlogs, ...response.data.blogs]);
             setTotalLength(response.data.allBlogs);
             setLoading(false);
         });
-    }, [radio, cat, blogs.length != totalLength ? skip : cat, deleted])
+    }, [radio,cat, blogs.length != totalLength  ? skip : null, deleted])
 
     // function deleteBlog(id) {
     //     deleteOneBlog(id)
@@ -50,19 +51,19 @@ function AllBlogs() {
     //                 })
     //         })
     // }
-    // console.log(cat)
+    console.log(blogs.length, totalLength)
     function changeRadioButton() {
         setSkip(0)
         setBlogs([])
         setRadio(radio == 'popular' ? "new" : "popular")
-        setLoading(true)
+        // setLoading(true)
     }
 
     function handleChange(e) {
-        setLoading(true)
         setBlogs([])
-        setSkip(0)
+        setTotalLength(0)
         setCategory(e.target.value)
+        setSkip(0)
     }
 
     function fetchMore() {
@@ -78,8 +79,8 @@ function AllBlogs() {
         // console.log("scrollTop" + document.documentElement.scrollTop);
         try {
             if (
-                window.innerHeight + document.documentElement.scrollTop + window.innerHeight * 0.3 >=
-                document.documentElement.scrollHeight
+                blogs.length < totalLength && (window.innerHeight + document.documentElement.scrollTop + 1 >=
+                document.documentElement.scrollHeight )
             ) {
                 // setLoading(true);
                 // console.log(blogs.length && totalLength)
@@ -89,7 +90,7 @@ function AllBlogs() {
         } catch (error) {
             console.log(error);
         }
-    };
+    }
 
     useEffect(() => {
         window.addEventListener("scroll", handelInfiniteScroll);
