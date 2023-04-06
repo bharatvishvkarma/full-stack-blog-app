@@ -31,14 +31,9 @@ function Loading() {
         //             </div>
         //             <h4 style={{color:"gray",fontFamily:"stylish",textAlign:"center"}}>Loading...</h4>
         //         </div>
-        <div id="loaderSvgWrapper">
-            <svg svg="www.w3.org/2000/svg" width="200px" height="200px" viewbox="0 0 200 200" id="preloader">
-                <circle cx="100" cy="100" r="3" id="red" />
-                <circle cx="100" cy="100" r="8" id="orange" />
-                <circle cx="100" cy="100" r="13" id="yellow" />
-                <circle cx="100" cy="100" r="18" id="green" />
-            </svg>
-        </div>
+        <div class="container">
+        <div class="spinner1">==</div>
+      </div>
 
     )
 }
