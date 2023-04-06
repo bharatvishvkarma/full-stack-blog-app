@@ -58,7 +58,7 @@ function AllBlogs() {
     //                 })
     //         })
     // }
-    console.log(blogs.length, totalLength)
+    // console.log(blogs.length, totalLength)
     function changeRadioButton() {
         setSkip(0)
         setBlogs([])
@@ -68,7 +68,7 @@ function AllBlogs() {
 
     function handleChange(e) {
         setBlogs([])
-        setTotalLength(0)
+        setTotalLength(-1)
         setSkip(0)
         setCategory(e.target.value)
     }
