@@ -149,9 +149,9 @@ function AllBlogs() {
                         }) : !loading ? <div style={{ textAlign: "center", color: "red", margin: "auto" }}><h3>No blog for this category</h3></div> : null
                 }
             </div>
-            {
+            {/* {
                 loading ? <Loading /> : <div></div>
-            }
+            } */}
 
 
             </InfiniteScroll>
