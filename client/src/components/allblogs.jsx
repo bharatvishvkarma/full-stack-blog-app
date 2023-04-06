@@ -1,5 +1,5 @@
 import { Button } from "@mui/material"
-import { useContext } from "react"
+import { useCallback, useContext } from "react"
 import { authContext } from "../App"
 
 import React, { useEffect, useState } from "react"
@@ -19,29 +19,36 @@ import Loading from "./loading"
 import InfiniteScroll from "react-infinite-scroll-component";
 
 function AllBlogs() {
-    const { user, isLoggedIn } = useContext(authContext)
-    const [blogs, setBlogs] = useState([])
+    const { user, isLoggedIn,blogs,setBlogs,
+        loading,setLoading,
+      radio,setRadio,
+      cat,setCategory,
+      skip,setSkip,
+      deleted,setDeleted,
+      totalLength,setTotalLength
+     } = useContext(authContext)
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(true)
-    const [radio, setRadio] = useState('popular')
-    const [cat, setCategory] = useState("")
-    const [skip, setSkip] = useState(0)
-    const [deleted, setDeleted] = useState(1)
-    const [totalLength, setTotalLength] = useState(-1)
+    // const [loading, setLoading] = useState(true)
+    // const [radio, setRadio] = useState('popular')
+    // const [cat, setCategory] = useState("")
+    // const [skip, setSkip] = useState(0)
+    // const [deleted, setDeleted] = useState(1)
+    // const [totalLength, setTotalLength] = useState(-1)
     // const [skip,setSkip] = useState(0)
 
 
-    useEffect(() => {
-        setLoading(true)
-        // setTotalLength(0)
-        getAllBlogs({ category: cat, skip: skip, radio }).then((response) => {
+    // useEffect(() => {
+    //     setLoading(true)
+    //     // setTotalLength(0)
+    //         getAllBlogs({ category: cat, skip: skip, radio }).then((response) => {
 
-            setBlogs((prevBlogs) => [...prevBlogs, ...response.data.blogs]);
-            setTotalLength(response.data.allBlogs);
-            setLoading(false);
-        });
-    }, [radio,cat,skip, deleted])
-
+    //             setBlogs((prevBlogs) => [...prevBlogs, ...response.data.blogs])
+    //             setTotalLength(response.data.allBlogs)
+    //             setLoading(false)
+    //         });
+        
+    // },[radio,cat,skip, deleted])
+        
     // function deleteBlog(id) {
     //     deleteOneBlog(id)
     //         .then(() => {
@@ -73,31 +80,7 @@ function AllBlogs() {
         // console.log(skip)
     }
 
-    // const handelInfiniteScroll = () => {
-    //     // console.log("scrollHeight" + document.documentElement.scrollHeight);
-    //     // console.log("innerHeight" + window.innerHeight);
-    //     // console.log("scrollTop" + document.documentElement.scrollTop);
-    //     try {
-    //         if (
-    //             window.innerHeight + document.documentElement.scrollTop + window.innerHeight*.05 >=
-    //             document.documentElement.scrollHeight 
-    //         ) {
-    //             // setLoading(true);
-    //             // console.log(blogs.length && totalLength)
-    //             setSkip(prev => prev + 6)
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     window.addEventListener("scroll", handelInfiniteScroll);
-    //     return () => window.removeEventListener("scroll", handelInfiniteScroll);
-    // }, []);
-
-    // console.log(blogs.length,totalLength)
+    
     return (
 
         <div style={{ width: "80%", margin: "auto", marginTop: "20px" }}>
@@ -179,4 +162,4 @@ function AllBlogs() {
     )
 }
 
-export default AllBlogs
+export default React.memo(AllBlogs) 

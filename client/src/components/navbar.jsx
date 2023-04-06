@@ -22,7 +22,7 @@ const Navbar = () => {
 
 
     const { isLoggedIn, user } = useContext(authContext)
-    console.log(user)
+    // console.log(user)
     const navigate = useNavigate()
 
     function logOut() {
