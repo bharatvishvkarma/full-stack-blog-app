@@ -20,7 +20,7 @@ function OneBlog({ blog, loading, setDeleted,index }) {
    async function  deletePost(id){
         deleteOneBlog(id)
         .then(()=>{
-            setDeleted(prev=>prev+1)
+            // setDeleted(prev=>prev+1)
             blogs.splice(index,1)
             // console.log(blogs.slice(index,1))
             setBlogs(blogs)
