@@ -175,10 +175,11 @@ async function addToBlog(req,res){
             })
         }
 
-        await Blog.create(blog)
+        let addedBlog = await Blog.create(blog)
 
         return res.send({
-            message: "blog added successfully"
+            message: "blog added successfully",
+            addedBlog
         })
     }
     catch(err){

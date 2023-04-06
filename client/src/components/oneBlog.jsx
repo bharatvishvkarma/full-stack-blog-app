@@ -11,18 +11,21 @@ import { authContext } from "../App"
 import {deleteOneBlog} from '../api/api'
 
 
-function OneBlog({ blog, loading, setDeleted }) {
+function OneBlog({ blog, loading, setDeleted,index }) {
     // console.log(blog,loading)
     const navigate =  useNavigate()
-    const { user, isLoggedIn } = useContext(authContext)
+    const { user, isLoggedIn,blogs,setBlogs,setTotalLength } = useContext(authContext)
     const [forRender,setForRedner] = useState(1)
 
    async function  deletePost(id){
         deleteOneBlog(id)
         .then(()=>{
             setDeleted(prev=>prev+1)
+            blogs.splice(index,1)
+            // console.log(blogs.slice(index,1))
+            setBlogs(blogs)
+            setTotalLength(prev =>prev-1)
         })
-        
     }
 
     return (

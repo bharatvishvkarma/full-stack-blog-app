@@ -29,7 +29,7 @@ function Create() {
         content: "",
         category: "",
     })
-    const { user, isLoggedIn } = useContext(authContext)
+    const { user, isLoggedIn,blogs,setBlogs,setTotalLength} = useContext(authContext)
     console.log(user)
     function handleChange(e) {
         setBlog({ ...blog, [e.target.name]: e.target.value })
@@ -68,6 +68,9 @@ function Create() {
             await addToBlog(obj)
                 .then((res) => {
                     setLoading(false)
+                    console.log(res)
+                    blogs.push(res.data.data.addedBlog)
+                    setTotalLength(prev=>prev+1)
                     navigate('/')
                 })
                 .catch((err) => {

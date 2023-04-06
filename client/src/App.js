@@ -42,7 +42,7 @@ function App() {
               setLoading(false)
           });
       
-  },[radio,cat,skip, deleted])
+  },[radio,cat,skip])
 
   useEffect(()=>{
     checkLoggedIn()

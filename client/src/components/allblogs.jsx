@@ -134,14 +134,14 @@ function AllBlogs() {
             <div className="blogsAll">
                 {
                     blogs.length > 0 ?
-                        blogs.map((blog) => {
+                        blogs.map((blog,index) => {
 
                             return (
                                 <div key={blog._id}>
                                     {
 
                                         blogs.length > 0 ?
-                                            <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} />
+                                            <OneBlog blog={blog} loading={loading} setDeleted={setDeleted} index = {index} />
                                             : <div ></div>
                                     }
                                 </div>
